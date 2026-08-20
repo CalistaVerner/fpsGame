@@ -277,6 +277,7 @@ dependencies = [
  "abi_stable",
  "embed-resource",
  "newengine-game-module-fps",
+ "newengine-game-ready-profile",
  "newengine-plugin-kit",
  "newengine-project-api",
  "serde_json",
@@ -475,6 +476,44 @@ dependencies = [
 ]
 
 [[package]]
+name = "newengine-assets-catalog-ui-runtime"
+version = "0.1.0"
+dependencies = [
+ "log",
+ "newengine-assets-api",
+ "newengine-core",
+ "newengine-input-actions-api",
+ "newengine-input-api",
+ "newengine-input-bindings-api",
+ "newengine-input-bindings-runtime",
+ "newengine-plugin-api",
+ "newengine-plugin-host",
+ "newengine-ui-api",
+ "newengine-ulog-api",
+ "serde_json",
+]
+
+[[package]]
+name = "newengine-assets-ui-runtime"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "blake3",
+ "flate2",
+ "log",
+ "newengine-asset-format-nef8",
+ "newengine-assets-api",
+ "newengine-math",
+ "newengine-plugin-api",
+ "newengine-service-api",
+ "newengine-service-kit",
+ "newengine-ui-api",
+ "newengine-ui-navigation-api",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "newengine-audio-api"
 version = "0.1.0"
 dependencies = [
@@ -579,6 +618,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "newengine-definitions-runtime"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "log",
+ "newengine-assets",
+ "newengine-assets-api",
+ "newengine-authored-xml",
+ "newengine-model-domain-api",
+ "newengine-plugin-api",
+ "newengine-service-api",
+ "newengine-service-kit",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "newengine-ecs"
 version = "0.1.0"
 dependencies = [
@@ -593,6 +649,24 @@ dependencies = [
  "newengine-entity-api",
  "newengine-service-api",
  "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "newengine-ecs-runtime"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "log",
+ "newengine-ecs",
+ "newengine-ecs-api",
+ "newengine-entity-api",
+ "newengine-plugin-api",
+ "newengine-plugin-host",
+ "newengine-scene-runtime",
+ "newengine-service-api",
+ "newengine-service-kit",
+ "newengine-ulog-api",
  "serde_json",
 ]
 
@@ -720,6 +794,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "newengine-game-data-lua"
+version = "0.1.0"
+dependencies = [
+ "newengine-game-data",
+ "newengine-scripting-client",
+ "serde_json",
+]
+
+[[package]]
 name = "newengine-game-events-api"
 version = "0.1.0"
 dependencies = [
@@ -783,6 +866,102 @@ dependencies = [
  "newengine-game-module-api",
  "newengine-project-runtime",
  "newengine-ulog-api",
+ "serde_json",
+]
+
+[[package]]
+name = "newengine-game-ready-profile"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "log",
+ "newengine-asset-format-nef8",
+ "newengine-assets",
+ "newengine-assets-catalog-ui-runtime",
+ "newengine-assets-ui-runtime",
+ "newengine-core",
+ "newengine-definitions-runtime",
+ "newengine-ecs",
+ "newengine-ecs-runtime",
+ "newengine-engine-runtime",
+ "newengine-entity-api",
+ "newengine-entity-runtime",
+ "newengine-game-data",
+ "newengine-game-data-lua",
+ "newengine-game-module-composition",
+ "newengine-game-ready-world",
+ "newengine-gameplay-runtime",
+ "newengine-input-api",
+ "newengine-input-bindings-runtime",
+ "newengine-input-profile-gameready",
+ "newengine-maps-runtime",
+ "newengine-material-runtime",
+ "newengine-materials",
+ "newengine-math",
+ "newengine-model-runtime",
+ "newengine-plugin-api",
+ "newengine-plugin-host",
+ "newengine-primitives",
+ "newengine-project-api",
+ "newengine-project-runtime",
+ "newengine-render-feature-api",
+ "newengine-render-feature-gameready",
+ "newengine-render-ui-bridge",
+ "newengine-runtime-host",
+ "newengine-scene",
+ "newengine-scene-runtime",
+ "newengine-schema-runtime",
+ "newengine-scripting-runtime",
+ "newengine-textures-runtime",
+ "newengine-time-runtime",
+ "newengine-ui",
+ "newengine-ui-api",
+ "newengine-ulog-api",
+ "newengine-world-api",
+ "newengine-world-environment-runtime",
+ "newengine-world-runtime",
+ "serde_json",
+]
+
+[[package]]
+name = "newengine-game-ready-world"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "blake3",
+ "flate2",
+ "newengine-asset-format-nef8",
+ "newengine-assets",
+ "newengine-assets-api",
+ "newengine-authored-xml",
+ "newengine-bounds",
+ "newengine-core",
+ "newengine-ecs",
+ "newengine-engine-runtime",
+ "newengine-game-data",
+ "newengine-gameplay-fps-api",
+ "newengine-lighting",
+ "newengine-materials",
+ "newengine-math",
+ "newengine-model-domain-api",
+ "newengine-model-runtime",
+ "newengine-model-skeleton-api",
+ "newengine-physics-contracts",
+ "newengine-plugin-api",
+ "newengine-plugin-host",
+ "newengine-primitives",
+ "newengine-procedural-noise",
+ "newengine-project-api",
+ "newengine-render-api",
+ "newengine-scene",
+ "newengine-sim",
+ "newengine-task-api",
+ "newengine-transform",
+ "newengine-ui-api",
+ "newengine-ulog-api",
+ "newengine-world-environment-api",
+ "parking_lot",
+ "serde",
  "serde_json",
 ]
 
@@ -922,6 +1101,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "newengine-input-profile-gameready"
+version = "0.1.0"
+dependencies = [
+ "newengine-camera-api",
+ "newengine-gameplay-fps-api",
+ "newengine-input-actions-api",
+ "newengine-input-api",
+ "newengine-input-bindings-api",
+]
+
+[[package]]
 name = "newengine-lighting"
 version = "0.1.0"
 dependencies = [
@@ -937,11 +1127,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "newengine-maps-runtime"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "newengine-assets",
+ "newengine-assets-api",
+ "newengine-authored-xml",
+ "newengine-plugin-api",
+ "newengine-service-api",
+ "newengine-service-kit",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "newengine-material-domain-api"
 version = "0.1.0"
 dependencies = [
  "newengine-render-api",
  "newengine-service-api",
+]
+
+[[package]]
+name = "newengine-material-domain-gameready"
+version = "0.1.0"
+dependencies = [
+ "log",
+ "newengine-assets",
+ "newengine-material-domain-api",
+ "newengine-plugin-host",
+ "newengine-primitives",
+ "newengine-render-api",
+ "newengine-ulog-api",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -1214,11 +1434,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "newengine-render-feature-gameready"
+version = "0.1.0"
+dependencies = [
+ "newengine-core",
+ "newengine-lighting",
+ "newengine-material-domain-api",
+ "newengine-material-domain-gameready",
+ "newengine-render-feature-api",
+]
+
+[[package]]
 name = "newengine-render-frame-graph"
 version = "0.1.0"
 dependencies = [
  "newengine-render-api",
  "serde",
+]
+
+[[package]]
+name = "newengine-render-ui-bridge"
+version = "0.1.0"
+dependencies = [
+ "newengine-core",
+ "newengine-render-feature-api",
 ]
 
 [[package]]
@@ -1409,6 +1648,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "newengine-scripting-runtime"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "log",
+ "newengine-plugin-api",
+ "newengine-scripting-api",
+ "newengine-service-api",
+ "newengine-service-kit",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "newengine-service-api"
 version = "0.1.0"
 dependencies = [
@@ -1506,6 +1759,24 @@ dependencies = [
  "serde_json",
  "thiserror",
  "zstd",
+]
+
+[[package]]
+name = "newengine-textures-runtime"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "log",
+ "newengine-assets",
+ "newengine-assets-api",
+ "newengine-math",
+ "newengine-plugin-api",
+ "newengine-service-api",
+ "newengine-service-kit",
+ "newengine-texture-container",
+ "newengine-ulog-api",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -1639,6 +1910,44 @@ dependencies = [
  "newengine-service-api",
  "newengine-time-api",
  "newengine-world-api",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "newengine-world-environment-runtime"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "log",
+ "newengine-plugin-api",
+ "newengine-plugin-host",
+ "newengine-service-api",
+ "newengine-service-kit",
+ "newengine-ulog-api",
+ "newengine-world-api",
+ "newengine-world-environment-api",
+ "parking_lot",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "newengine-world-runtime"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "log",
+ "newengine-plugin-api",
+ "newengine-plugin-host",
+ "newengine-runtime-host",
+ "newengine-scene",
+ "newengine-scene-runtime",
+ "newengine-service-api",
+ "newengine-service-kit",
+ "newengine-ulog-api",
+ "newengine-world-api",
+ "parking_lot",
  "serde",
  "serde_json",
 ]

@@ -19,6 +19,7 @@ abi_stable = { workspace = true }
 newengine-plugin-api = { workspace = true }
 serde_json = { workspace = true }
 newengine-game-module-fps = { workspace = true }
+newengine-game-ready-profile = { workspace = true }
 newengine-project-api = { workspace = true }
 
 [build-dependencies]

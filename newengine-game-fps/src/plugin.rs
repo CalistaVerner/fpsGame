@@ -1,8 +1,6 @@
 use crate::config::{apply_noop_config, default_config};
-use crate::constants::{
-    FPS_RUNTIME_SERVICE_ID, GAME_READY_RUNTIME_SERVICE_ID, PLUGIN_ID, PLUGIN_NAME, SERVICE_VERSION,
-};
-use crate::metadata::{required_runtime_profile_metadata, service_registration_metadata};
+use crate::constants::{FPS_RUNTIME_SERVICE_ID, PLUGIN_ID, PLUGIN_NAME, SERVICE_VERSION};
+use crate::metadata::service_registration_metadata;
 use crate::service::FpsRuntimeProfileService;
 use abi_stable::std_types::{RResult, RString, RVec};
 use newengine_plugin_api::{
@@ -24,11 +22,6 @@ impl PluginModule for FpsGamePlugin {
             FPS_RUNTIME_SERVICE_ID,
             SERVICE_VERSION,
             service_registration_metadata(),
-        )
-        .requires_service(
-            GAME_READY_RUNTIME_SERVICE_ID,
-            SERVICE_VERSION,
-            required_runtime_profile_metadata(),
         )
         .build()
     }
@@ -57,10 +50,8 @@ impl PluginModule for FpsGamePlugin {
     }
 
     fn init(&mut self, host: HostApiV1, _effective: ConfigBlobV1) -> RResult<(), RString> {
-        let service = ServiceV1Dyn::from_value(
-            FpsRuntimeProfileService::new(host.call_service_v1),
-            abi_stable::sabi_trait::TD_Opaque,
-        );
+        let service =
+            ServiceV1Dyn::from_value(FpsRuntimeProfileService, abi_stable::sabi_trait::TD_Opaque);
         (host.register_service_v1)(service)
     }
 
@@ -94,16 +85,16 @@ mod tests {
     use newengine_plugin_api::CapabilityRole;
 
     #[test]
-    fn descriptor_declares_runtime_profile_bridge_contract() {
+    fn descriptor_declares_fps_runtime_composition_service() {
         let descriptor = FpsGamePlugin.descriptor();
 
         assert!(descriptor.capabilities.iter().any(|capability| {
             capability.id.as_str() == FPS_RUNTIME_SERVICE_ID
                 && capability.role == CapabilityRole::Provides
         }));
-        assert!(descriptor.capabilities.iter().any(|capability| {
-            capability.id.as_str() == GAME_READY_RUNTIME_SERVICE_ID
-                && capability.role == CapabilityRole::Requires
-        }));
+        assert!(!descriptor
+            .capabilities
+            .iter()
+            .any(|capability| capability.role == CapabilityRole::Requires));
     }
 }
