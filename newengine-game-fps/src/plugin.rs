@@ -1,5 +1,5 @@
 use crate::config::{apply_noop_config, default_config};
-use crate::constants::{FPS_RUNTIME_SERVICE_ID, PLUGIN_ID, PLUGIN_NAME, SERVICE_VERSION};
+use crate::constants::{fps_runtime_service_id, PLUGIN_ID, PLUGIN_NAME, SERVICE_VERSION};
 use crate::metadata::service_registration_metadata;
 use crate::service::FpsRuntimeProfileService;
 use abi_stable::std_types::{RResult, RString, RVec};
@@ -19,7 +19,7 @@ impl PluginModule for FpsGamePlugin {
             PluginKind::Runtime,
         )
         .provides_service(
-            FPS_RUNTIME_SERVICE_ID,
+            fps_runtime_service_id(),
             SERVICE_VERSION,
             service_registration_metadata(),
         )
@@ -89,7 +89,7 @@ mod tests {
         let descriptor = FpsGamePlugin.descriptor();
 
         assert!(descriptor.capabilities.iter().any(|capability| {
-            capability.id.as_str() == FPS_RUNTIME_SERVICE_ID
+            capability.id.as_str() == fps_runtime_service_id()
                 && capability.role == CapabilityRole::Provides
         }));
         assert!(!descriptor

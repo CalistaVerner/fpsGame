@@ -15,7 +15,8 @@ newengine-game-ready-profile = { path = "../../NewEngine/neocore2/crates/newengi
 newengine-project-api = { path = "../../NewEngine/neocore2/crates/newengine-project-api" }
 
 [profile.release]
+debug = 0
 opt-level = 3
 lto = "thin"
 codegen-units = 1
-strip = "debuginfo"
+strip = "symbols"

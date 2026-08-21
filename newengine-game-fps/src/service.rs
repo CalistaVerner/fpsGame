@@ -1,4 +1,4 @@
-use crate::constants::FPS_RUNTIME_SERVICE_ID;
+use crate::constants::fps_runtime_service_id;
 use crate::launch::execute_launch;
 use crate::metadata::service_description;
 use abi_stable::std_types::{RResult, RString};
@@ -9,7 +9,7 @@ pub(crate) struct FpsRuntimeProfileService;
 
 impl ServiceV1 for FpsRuntimeProfileService {
     fn id(&self) -> CapabilityId {
-        RString::from(FPS_RUNTIME_SERVICE_ID)
+        RString::from(fps_runtime_service_id())
     }
 
     fn describe(&self) -> RString {

@@ -1,4 +1,4 @@
-use crate::constants::{COMPOSITION_ID, FPS_RUNTIME_SERVICE_ID, PLUGIN_ID, RUNTIME_PROFILE_ID};
+use crate::constants::{fps_runtime_service_id, COMPOSITION_ID, PLUGIN_ID, RUNTIME_PROFILE_ID};
 use newengine_project_api::{PROJECT_RUNTIME_PROFILE_ABI_V1, RUNTIME_PROFILE_LAUNCH_METHOD_V1};
 use serde_json::json;
 use std::sync::OnceLock;
@@ -10,7 +10,7 @@ pub(crate) fn service_description() -> &'static str {
     SERVICE_DESCRIPTION
         .get_or_init(|| {
             json!({
-                "id": FPS_RUNTIME_SERVICE_ID,
+                "id": fps_runtime_service_id(),
                 "contract": PROJECT_RUNTIME_PROFILE_ABI_V1,
                 "runtime_profile": RUNTIME_PROFILE_ID,
                 "game_module": PLUGIN_ID,
