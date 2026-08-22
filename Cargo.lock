@@ -426,11 +426,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "newengine-animation-runtime"
+version = "0.1.0"
+dependencies = [
+ "newengine-math",
+ "newengine-model-skeleton-api",
+]
+
+[[package]]
 name = "newengine-asset-format-nef8"
 version = "0.1.0"
 dependencies = [
  "newengine-assets-api",
  "newengine-contract-api",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -467,6 +477,8 @@ name = "newengine-assets-api"
 version = "0.1.0"
 dependencies = [
  "abi_stable",
+ "blake3",
+ "flate2",
  "log",
  "newengine-contract-api",
  "newengine-plugin-api",
@@ -612,7 +624,6 @@ dependencies = [
  "newengine-task-api",
  "newengine-time-api",
  "newengine-ui-api",
- "newengine-ui-draw",
  "newengine-ulog-api",
  "newengine-world-api",
  "parking_lot",
@@ -722,6 +733,7 @@ dependencies = [
  "newengine-model-skeleton-api",
  "newengine-physics-api",
  "newengine-physics-contracts",
+ "newengine-physics-runtime-adapter",
  "newengine-platform-api",
  "newengine-plugin-api",
  "newengine-plugin-host",
@@ -730,6 +742,7 @@ dependencies = [
  "newengine-render-api",
  "newengine-render-feature-api",
  "newengine-render-frame-graph",
+ "newengine-render-runtime-adapter",
  "newengine-replay",
  "newengine-runtime-host",
  "newengine-runtime-session-api",
@@ -895,7 +908,9 @@ dependencies = [
  "newengine-entity-runtime",
  "newengine-game-data",
  "newengine-game-data-lua",
+ "newengine-game-events-runtime",
  "newengine-game-module-composition",
+ "newengine-game-module-runtime",
  "newengine-game-ready-world",
  "newengine-gameplay-runtime",
  "newengine-input-api",
@@ -906,6 +921,8 @@ dependencies = [
  "newengine-materials",
  "newengine-math",
  "newengine-model-runtime",
+ "newengine-network-runtime",
+ "newengine-physics-runtime-adapter",
  "newengine-plugin-api",
  "newengine-plugin-host",
  "newengine-primitives",
@@ -913,12 +930,15 @@ dependencies = [
  "newengine-project-runtime",
  "newengine-render-feature-api",
  "newengine-render-feature-gameready",
+ "newengine-render-runtime-adapter",
  "newengine-render-ui-bridge",
+ "newengine-replication-runtime",
  "newengine-runtime-host",
  "newengine-scene",
  "newengine-scene-runtime",
  "newengine-schema-runtime",
  "newengine-scripting-runtime",
+ "newengine-service-api",
  "newengine-textures-runtime",
  "newengine-time-runtime",
  "newengine-ui",
@@ -937,6 +957,7 @@ dependencies = [
  "abi_stable",
  "blake3",
  "flate2",
+ "newengine-animation-runtime",
  "newengine-asset-format-nef8",
  "newengine-assets",
  "newengine-assets-api",
@@ -1059,6 +1080,15 @@ dependencies = [
  "newengine-gameplay-script-api",
  "newengine-ulog-api",
  "serde_json",
+]
+
+[[package]]
+name = "newengine-host-kernel"
+version = "0.1.0"
+dependencies = [
+ "crossbeam-channel",
+ "newengine-core",
+ "newengine-plugin-host",
 ]
 
 [[package]]
@@ -1343,6 +1373,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "newengine-physics-runtime-adapter"
+version = "0.1.0"
+dependencies = [
+ "newengine-core",
+ "newengine-physics-api",
+ "newengine-plugin-api",
+ "newengine-plugin-host",
+ "newengine-runtime-adapter-core",
+ "newengine-ulog-api",
+]
+
+[[package]]
 name = "newengine-platform-api"
 version = "0.1.0"
 dependencies = [
@@ -1482,6 +1524,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "newengine-render-runtime-adapter"
+version = "0.1.0"
+dependencies = [
+ "newengine-core",
+ "newengine-plugin-api",
+ "newengine-plugin-host",
+ "newengine-render-api",
+ "newengine-runtime-adapter-core",
+ "newengine-ulog-api",
+]
+
+[[package]]
 name = "newengine-render-ui-bridge"
 version = "0.1.0"
 dependencies = [
@@ -1514,11 +1568,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "newengine-runtime-adapter-core"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "newengine-core",
+ "newengine-plugin-api",
+ "newengine-plugin-host",
+ "newengine-service-api",
+ "serde_json",
+]
+
+[[package]]
 name = "newengine-runtime-host"
 version = "0.1.0"
 dependencies = [
  "abi_stable",
- "crossbeam-channel",
  "libloading 0.9.0",
  "log",
  "newengine-asset-hot-reload-runtime",
@@ -1528,12 +1593,9 @@ dependencies = [
  "newengine-ecs-api",
  "newengine-editor-command-api",
  "newengine-entity-api",
- "newengine-game-events-runtime",
- "newengine-game-module-runtime",
- "newengine-gameplay-runtime",
+ "newengine-host-kernel",
  "newengine-input-api",
  "newengine-math",
- "newengine-network-runtime",
  "newengine-physics-api",
  "newengine-platform-api",
  "newengine-plugin-api",
@@ -1541,7 +1603,8 @@ dependencies = [
  "newengine-project-api",
  "newengine-project-runtime",
  "newengine-render-api",
- "newengine-replication-runtime",
+ "newengine-render-runtime-adapter",
+ "newengine-runtime-adapter-core",
  "newengine-runtime-session-api",
  "newengine-runtime-session-runtime",
  "newengine-scene-io",
@@ -1563,6 +1626,7 @@ dependencies = [
  "raw-window-handle",
  "serde",
  "serde_json",
+ "toml 0.8.23",
 ]
 
 [[package]]
@@ -1785,6 +1849,7 @@ name = "newengine-texture-container"
 version = "0.1.0"
 dependencies = [
  "newengine-asset-format-nef8",
+ "newengine-assets-api",
  "serde",
  "serde_json",
  "thiserror",
