@@ -7,7 +7,7 @@ description = "North Star FPS game composition dynamically loaded through the ca
 license = "Proprietary"
 
 [package.metadata.northstar.provider]
-route = "game.fps"
+route = "engine.game.module.fps"
 install_name = "fps-game"
 implements = "engine.game.module"
 
