@@ -10,6 +10,18 @@ use newengine_plugin_api::{
 
 pub(crate) struct FpsGamePlugin;
 
+pub(crate) fn descriptor_v2() -> newengine_plugin_api::PluginDescriptorV2 {
+    newengine_plugin_api::PluginDescriptorV2::builder(
+        PLUGIN_ID, PLUGIN_NAME, env!("CARGO_PKG_VERSION"), PluginKind::Runtime,
+    )
+    .provides_service(
+        fps_runtime_service_id(),
+        SERVICE_VERSION,
+        service_registration_metadata(),
+    )
+    .build()
+}
+
 impl PluginModule for FpsGamePlugin {
     fn descriptor(&self) -> PluginDescriptor {
         PluginDescriptor::builder(

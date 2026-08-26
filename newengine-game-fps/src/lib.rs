@@ -17,4 +17,5 @@ newengine_plugin_api::export_newengine_plugin_signature!(
     phase = newengine_plugin_api::PluginBootstrapPhase::Engine,
 );
 
+newengine_plugin_api::export_newengine_plugin_descriptor_v2!(plugin::descriptor_v2);
 newengine_plugin_api::export_newengine_plugin!(module = FpsGamePlugin);

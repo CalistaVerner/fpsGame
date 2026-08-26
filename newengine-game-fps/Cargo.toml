@@ -1,6 +1,6 @@
 [package]
 name = "game-fps"
-version = "0.1.0"
+version = "0.1.1"
 build = "build.rs"
 edition = "2021"
 description = "North Star FPS game composition dynamically loaded through the canonical plugin ABI"
