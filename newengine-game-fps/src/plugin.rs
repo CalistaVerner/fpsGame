@@ -1,7 +1,7 @@
 use crate::config::{apply_noop_config, default_config};
-use crate::constants::{fps_runtime_service_id, PLUGIN_ID, PLUGIN_NAME, SERVICE_VERSION};
-use crate::metadata::service_registration_metadata;
-use crate::service::FpsRuntimeProfileService;
+use crate::constants::{PLUGIN_ID, PLUGIN_NAME, SERVICE_VERSION};
+use crate::metadata::{service_id, service_registration_metadata};
+use crate::service::FpsGameModuleDescriptorService;
 use abi_stable::std_types::{RResult, RString, RVec};
 use newengine_plugin_api::{
     ConfigApplyResultV1, ConfigBlobV1, ConfigDiagV1, ConfigPatchV1, HostApiV1, PluginDescriptor,
@@ -12,10 +12,13 @@ pub(crate) struct FpsGamePlugin;
 
 pub(crate) fn descriptor_v2() -> newengine_plugin_api::PluginDescriptorV2 {
     newengine_plugin_api::PluginDescriptorV2::builder(
-        PLUGIN_ID, PLUGIN_NAME, env!("CARGO_PKG_VERSION"), PluginKind::Runtime,
+        PLUGIN_ID,
+        PLUGIN_NAME,
+        env!("CARGO_PKG_VERSION"),
+        PluginKind::Runtime,
     )
     .provides_service(
-        fps_runtime_service_id(),
+        service_id(),
         SERVICE_VERSION,
         service_registration_metadata(),
     )
@@ -31,7 +34,7 @@ impl PluginModule for FpsGamePlugin {
             PluginKind::Runtime,
         )
         .provides_service(
-            fps_runtime_service_id(),
+            service_id(),
             SERVICE_VERSION,
             service_registration_metadata(),
         )
@@ -62,48 +65,49 @@ impl PluginModule for FpsGamePlugin {
     }
 
     fn init(&mut self, host: HostApiV1, _effective: ConfigBlobV1) -> RResult<(), RString> {
-        let service =
-            ServiceV1Dyn::from_value(FpsRuntimeProfileService, abi_stable::sabi_trait::TD_Opaque);
+        let service = ServiceV1Dyn::from_value(
+            FpsGameModuleDescriptorService,
+            abi_stable::sabi_trait::TD_Opaque,
+        );
         (host.register_service_v1)(service)
     }
 
     fn start(&mut self) -> RResult<(), RString> {
-        ready()
+        RResult::ROk(())
     }
-
     fn fixed_update(&mut self, _dt: f32) -> RResult<(), RString> {
-        ready()
+        RResult::ROk(())
     }
-
     fn update(&mut self, _dt: f32) -> RResult<(), RString> {
-        ready()
+        RResult::ROk(())
     }
-
     fn render(&mut self, _dt: f32) -> RResult<(), RString> {
-        ready()
+        RResult::ROk(())
     }
-
     fn shutdown(&mut self) {}
-}
-
-#[inline]
-fn ready() -> RResult<(), RString> {
-    RResult::ROk(())
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use newengine_game_module_api::GAME_MODULE_SERVICE_ID;
     use newengine_plugin_api::CapabilityRole;
 
     #[test]
-    fn descriptor_declares_fps_runtime_composition_service() {
+    fn descriptor_declares_only_game_module_descriptor_service() {
         let descriptor = FpsGamePlugin.descriptor();
-
         assert!(descriptor.capabilities.iter().any(|capability| {
-            capability.id.as_str() == fps_runtime_service_id()
+            capability.id.as_str() == GAME_MODULE_SERVICE_ID
                 && capability.role == CapabilityRole::Provides
         }));
+        assert_eq!(
+            descriptor
+                .capabilities
+                .iter()
+                .filter(|capability| capability.role == CapabilityRole::Provides)
+                .count(),
+            1
+        );
         assert!(!descriptor
             .capabilities
             .iter()

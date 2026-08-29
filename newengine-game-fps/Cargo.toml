@@ -18,9 +18,8 @@ crate-type = ["cdylib"]
 abi_stable = { workspace = true }
 newengine-plugin-api = { workspace = true }
 serde_json = { workspace = true }
-newengine-game-module-fps = { workspace = true }
-newengine-game-ready-profile = { workspace = true }
-newengine-project-api = { workspace = true }
+newengine-game-module-api = { workspace = true }
+newengine-game-module-fps-contract = { workspace = true }
 
 [build-dependencies]
 embed-resource = "3.0.6"

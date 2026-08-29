@@ -1,32 +1,64 @@
-use crate::constants::fps_runtime_service_id;
-use crate::launch::execute_launch;
-use crate::metadata::service_description;
 use abi_stable::std_types::{RResult, RString};
+use newengine_game_module_api::{
+    GAME_MODULE_CONTRACT_V2, GAME_MODULE_DESCRIBE_METHOD_V1, GAME_MODULE_DESCRIBE_METHOD_V2,
+    GAME_MODULE_SERVICE_ID,
+};
+use newengine_game_module_fps_contract::{descriptor_v1_compat, descriptor_v2};
 use newengine_plugin_api::{Blob, CapabilityId, MethodName, ServiceV1};
-use newengine_project_api::RUNTIME_PROFILE_LAUNCH_METHOD_V1;
 
-pub(crate) struct FpsRuntimeProfileService;
+use crate::constants::PLUGIN_ID;
 
-impl ServiceV1 for FpsRuntimeProfileService {
+pub(crate) struct FpsGameModuleDescriptorService;
+
+impl ServiceV1 for FpsGameModuleDescriptorService {
     fn id(&self) -> CapabilityId {
-        RString::from(fps_runtime_service_id())
+        RString::from(GAME_MODULE_SERVICE_ID)
     }
 
     fn describe(&self) -> RString {
-        RString::from(service_description())
+        RString::from(
+            serde_json::json!({
+                "id": GAME_MODULE_SERVICE_ID,
+                "contract": GAME_MODULE_CONTRACT_V2,
+                "active_module": PLUGIN_ID,
+                "methods": [GAME_MODULE_DESCRIBE_METHOD_V2, GAME_MODULE_DESCRIBE_METHOD_V1],
+                "ownership": "descriptor-only"
+            })
+            .to_string(),
+        )
     }
 
     fn call(&self, method: MethodName, payload: Blob) -> RResult<Blob, RString> {
-        if method.as_str() != RUNTIME_PROFILE_LAUNCH_METHOD_V1 {
-            return RResult::RErr(RString::from(format!(
-                "unknown runtime-profile method: {}",
-                method.as_str()
-            )));
+        if method.as_str() != GAME_MODULE_DESCRIBE_METHOD_V2
+            && method.as_str() != GAME_MODULE_DESCRIBE_METHOD_V1
+        {
+            return RResult::RErr(RString::from("unknown game-module method"));
         }
-
-        match execute_launch(&payload) {
-            Ok(result) => RResult::ROk(result),
-            Err(error) => RResult::RErr(error),
+        if !payload.is_empty() {
+            if let Ok(request) = serde_json::from_slice::<serde_json::Value>(payload.as_slice()) {
+                if let Some(requested) = request
+                    .get("requested_module_id")
+                    .and_then(serde_json::Value::as_str)
+                {
+                    if requested != PLUGIN_ID {
+                        return RResult::RErr(RString::from(format!(
+                            "FPS module descriptor '{}' does not satisfy requested '{}'",
+                            PLUGIN_ID, requested
+                        )));
+                    }
+                }
+            }
+        }
+        let encoded = if method.as_str() == GAME_MODULE_DESCRIBE_METHOD_V2 {
+            serde_json::to_vec(&descriptor_v2())
+        } else {
+            serde_json::to_vec(&descriptor_v1_compat())
+        };
+        match encoded {
+            Ok(bytes) => RResult::ROk(Blob::from(bytes)),
+            Err(error) => RResult::RErr(RString::from(format!(
+                "encode FPS game-module descriptor: {error}"
+            ))),
         }
     }
 }
@@ -36,14 +68,14 @@ mod tests {
     use super::*;
 
     #[test]
-    fn rejects_unknown_method_before_launch() {
-        let result = FpsRuntimeProfileService.call(RString::from("invalid.method"), Blob::new());
-
-        match result {
-            RResult::RErr(error) => {
-                assert!(error.as_str().contains("unknown runtime-profile method"));
-            }
-            RResult::ROk(_) => panic!("unknown method should be rejected"),
-        }
+    fn descriptor_is_contract_only_and_valid() {
+        let descriptor = descriptor_v2();
+        descriptor.validate().unwrap();
+        assert_eq!(descriptor.module_id, PLUGIN_ID);
+        assert_eq!(descriptor.providers.len(), 4);
+        assert!(descriptor
+            .providers
+            .iter()
+            .all(|provider| provider.provider_id.starts_with("newengine.gameplay.fps")));
     }
 }

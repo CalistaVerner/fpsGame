@@ -2,7 +2,6 @@
 
 mod config;
 mod constants;
-mod launch;
 mod metadata;
 mod plugin;
 mod service;
