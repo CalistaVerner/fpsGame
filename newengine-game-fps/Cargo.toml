@@ -17,6 +17,7 @@ crate-type = ["cdylib"]
 [dependencies]
 abi_stable = { workspace = true }
 newengine-plugin-api = { workspace = true }
+newengine-service-api = { workspace = true }
 serde_json = { workspace = true }
 newengine-game-module-api = { workspace = true }
 newengine-game-module-fps-contract = { workspace = true }
